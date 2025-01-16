@@ -39,7 +39,7 @@ void tone(int pin, unsigned int frequency, unsigned long duration) {
 	};
 
 	if(toneQueue == NULL) {
-		ESP_LOGI(__FILENAME__, "Creating tone queue & receiver");
+		ESP_LOGD(__FILENAME__, "Creating tone queue & receiver");
 		toneQueue = xQueueCreate(32, sizeof(parameters));
 		xTaskCreate(
 			toneQueueReceiver,
@@ -51,9 +51,9 @@ void tone(int pin, unsigned int frequency, unsigned long duration) {
 		);
 	}
 
-	ESP_LOGI(__FILENAME__, "Queueing tone @ %dhz for %dms on pin %d", (int)frequency, (int)duration, pin);
+	ESP_LOGD(__FILENAME__, "Queueing tone @ %dhz for %dms on pin %d", (int)frequency, (int)duration, pin);
 	if(xQueueSend(toneQueue, parameters, pdMS_TO_TICKS(10000)) != pdPASS) {
-		ESP_LOGW(__FILENAME__, "Could not queue tone @ %dhz for %dms on pin %d", (int)frequency, (int)duration, pin);
+		ESP_LOGE(__FILENAME__, "Could not queue tone @ %dhz for %dms on pin %d", (int)frequency, (int)duration, pin);
 	}
 }
 
