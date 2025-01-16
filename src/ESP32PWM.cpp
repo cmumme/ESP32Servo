@@ -139,7 +139,7 @@ int ESP32PWM::allocatenext(double freq) {
 void ESP32PWM::deallocate() {
 	if (pwmChannel < 0)
 		return;
-	ESP_LOGE(TAG, "PWM deallocating LEDc #%d",pwmChannel);
+	ESP_LOGD(TAG, "PWM deallocating LEDc #%d",pwmChannel);
 	timerCount[getTimer()]--;
 	if (timerCount[getTimer()] == 0) {
 		timerFreqSet[getTimer()] = -1; // last pwn closed out
@@ -335,7 +335,7 @@ void ESP32PWM::attachPin(uint8_t pin, double freq, uint8_t resolution_bits) {
 
 	if (hasPwm(pin)){
 		int ret=setup(freq, resolution_bits);
-		ESP_LOGW(TAG, "Pin Setup %d with code %d",pin,ret);
+		ESP_LOGD(TAG, "Pin Setup %d with code %d",pin,ret);
 	}
 	else
 		ESP_LOGE(TAG, "ERROR Pin Failed %d ",pin);
